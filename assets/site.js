@@ -211,17 +211,6 @@
       });
     }
 
-    // Desktop Mouse Wheel: horizontal translation when hovering over carousel
-    rail.addEventListener('wheel', e => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 3) {
-        e.preventDefault();
-        pauseInteraction();
-        rail.scrollLeft += e.deltaY;
-        clearTimeout(scrollEndTimer);
-        scrollEndTimer = setTimeout(checkLoop, 120);
-      }
-    }, { passive: false });
-
     // Desktop Grab & Drag
     let isMouseDown = false;
     let startX = 0;
