@@ -1170,9 +1170,9 @@ p {
 
 /* Final screenshot fixes: show original video across the entire frame, without letterboxing. */
 .home-motion .motion-media .motion-poster,
-.home-motion .motion-card:first-child .motion-media .motion-poster{object-fit:cover!important;object-position:center bottom!important;background-color:#e9efec;}
+.home-motion .motion-card:first-child .motion-media .motion-poster{object-fit:cover!important;object-position:center center!important;background-color:#e9efec;}
 .home-motion .motion-media video,
-.home-motion .motion-card:first-child .motion-media video{object-fit:cover!important;object-position:center bottom!important;}
+.home-motion .motion-card:first-child .motion-media video{object-fit:cover!important;object-position:center center!important;}
 .home-motion .motion-card:nth-child(2) .motion-media video,
 .home-motion .motion-card:nth-child(2) .motion-media .motion-poster{object-position:center 44%!important;}
 @media (min-width:781px){
@@ -1181,9 +1181,9 @@ p {
 }
 @media (max-width:520px){
  .home-motion .motion-media .motion-poster,
- .home-motion .motion-card:first-child .motion-media .motion-poster{object-position:center bottom!important}
+ .home-motion .motion-card:first-child .motion-media .motion-poster{object-position:center center!important}
  .home-motion .motion-media video,
- .home-motion .motion-card:first-child .motion-media video{object-position:center bottom!important}
+ .home-motion .motion-card:first-child .motion-media video{object-position:center center!important}
 }
 
 
