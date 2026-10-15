@@ -177,7 +177,8 @@
     bottom: 0;
     height: calc(100dvh - var(--header-h, 80px));
     max-height: calc(100dvh - var(--header-h, 80px));
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     background: rgba(250, 250, 247, 0.97);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -192,10 +193,10 @@
   }
 
   .mobile-nav-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+    margin-bottom: 16px !important;
   }
 
   .mobile-nav-grid a {
@@ -203,21 +204,19 @@
     align-items: center !important;
     justify-content: space-between !important;
     background: #ffffff !important;
-    border: 1px solid rgba(22, 63, 91, 0.09) !important;
-    border-radius: 14px !important;
-    padding: 15px 14px !important;
+    border: 1px solid rgba(22, 63, 91, 0.08) !important;
+    border-radius: 12px !important;
+    padding: 12px 18px !important;
     color: var(--navy) !important;
     text-decoration: none !important;
     font-family: var(--font-head) !important;
     font-weight: 700 !important;
     font-size: 16px !important;
-    box-shadow: 0 4px 14px rgba(15, 50, 65, 0.04) !important;
+    box-shadow: 0 2px 8px rgba(15, 50, 65, 0.03) !important;
     transition: transform 0.18s var(--ease), background 0.18s, box-shadow 0.18s, border-color 0.18s !important;
-    opacity: 0;
-    animation: mobileItemCascade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .mobile-nav-grid a:active {
-    transform: scale(0.97) !important;
+    transform: scale(0.985) !important;
     background: #f1f6f8 !important;
   }
 
@@ -225,20 +224,20 @@
     background: #eaf3f8 !important;
     border-color: #2779ad !important;
     color: #12547b !important;
-    box-shadow: 0 6px 18px rgba(39, 121, 173, 0.12) !important;
+    box-shadow: 0 4px 14px rgba(39, 121, 173, 0.12) !important;
   }
   .mobile-nav-grid a[aria-current="page"]::after {
     content: '' !important;
-    width: 8px !important;
-    height: 8px !important;
+    width: 9px !important;
+    height: 9px !important;
     border-radius: 50% !important;
-    background: var(--sun) !important;
-    box-shadow: 0 0 0 3px rgba(255, 206, 82, 0.35) !important;
+    background: #2779ad !important;
+    box-shadow: 0 0 0 4px rgba(39, 121, 173, 0.22) !important;
     flex: none !important;
   }
   .mobile-nav-grid a:not([aria-current="page"])::after {
     content: '→' !important;
-    font-size: 14px !important;
+    font-size: 15px !important;
     color: #9cb1bc !important;
     font-weight: 600 !important;
     transition: transform 0.18s, color 0.18s !important;
@@ -250,25 +249,13 @@
     color: var(--blue) !important;
   }
 
-  .mobile-nav-grid a:nth-child(1) { animation-delay: 0.02s; }
-  .mobile-nav-grid a:nth-child(2) { animation-delay: 0.04s; }
-  .mobile-nav-grid a:nth-child(3) { animation-delay: 0.06s; }
-  .mobile-nav-grid a:nth-child(4) { animation-delay: 0.08s; }
-  .mobile-nav-grid a:nth-child(5) { animation-delay: 0.10s; }
-  .mobile-nav-grid a:nth-child(6) { animation-delay: 0.12s; }
-  .mobile-nav-grid a:nth-child(7) { animation-delay: 0.14s; }
-  .mobile-nav-grid a:nth-child(8) { animation-delay: 0.16s; }
-
   .mobile-menu-bottom {
     margin-top: auto !important;
-    padding-top: 16px !important;
+    padding-top: 14px !important;
     border-top: 1px solid rgba(22, 63, 91, 0.08) !important;
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 10px !important;
-    opacity: 0;
-    animation: mobileItemCascade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    animation-delay: 0.20s;
   }
 
   .mobile-btn {
@@ -322,9 +309,8 @@
 @media(max-width:520px){
   .home-carousel-head{margin-bottom:26px}
   .route-controls{margin-left:auto}
-  .activity-carousel{grid-auto-columns:100% !important;gap:14px !important}
-  .activity-copy{padding:17px 16px 19px}
-  .activity-copy h3,.motion-copy h3{font-size:24px}
+  .activity-copy{padding:16px 15px 18px}
+  .activity-copy h3,.motion-copy h3{font-size:22px}
   .uniform-grid{grid-template-columns:1fr}
   .uniform-grid .journal-item{aspect-ratio:4/4.8}
   .people-grid{grid-template-columns:1fr 1fr;gap:14px}
@@ -333,10 +319,11 @@
   .person-data strong{font-size:22px}
   .person-data small{font-size:11px}
   .learning-entry h3{min-height:0}
-  .mobile-nav:not([hidden]) { padding: 14px 16px 24px; }
-  .mobile-nav-grid a { font-size: 14px; padding: 13px 10px; }
+  .mobile-nav:not([hidden]) { padding: 12px 16px 22px; }
+  .mobile-nav-grid { gap: 6px !important; margin-bottom: 14px !important; }
+  .mobile-nav-grid a { font-size: 15px !important; padding: 11px 16px !important; }
   .mobile-menu-bottom { grid-template-columns: 1fr 1fr !important; gap: 8px; }
-  .mobile-btn { padding: 12px 6px; font-size: 11.5px; }
+  .mobile-btn { padding: 12px 10px; font-size: 12.5px; }
 }
 
 
@@ -545,9 +532,14 @@ html{scroll-padding-top:82px}
 .motion-copy{padding:18px 22px 23px}
 .motion-copy h3{font-size:clamp(21px,2.2vw,29px);margin:0 0 9px}
 .motion-copy p{font-size:14px;line-height:1.55}
-.video-toggle{position:absolute;z-index:5;right:14px;bottom:14px;width:44px;height:44px;border:1px solid #e3ebeb;background:rgba(255,255,255,.96);color:#17364e;box-shadow:0 5px 18px #152e3d38;display:grid;place-items:center;border-radius:50%;transition:transform .25s,background .25s}
-.video-toggle:hover{transform:scale(1.06);background:#fff}
-.video-toggle span{font-size:14px}
+.video-toggle{position:absolute;z-index:5;right:14px;bottom:14px;width:44px;height:44px;border:1px solid rgba(22,63,91,.12);background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#122e44;box-shadow:0 6px 20px rgba(15,50,65,.18);display:grid;place-items:center;border-radius:50%;cursor:pointer;transition:transform .25s var(--ease),background .25s,box-shadow .25s}
+.video-toggle:hover{transform:scale(1.08);background:#fff;box-shadow:0 8px 25px rgba(15,50,65,.24)}
+.video-toggle:active{transform:scale(0.96)}
+.video-toggle svg{width:16px;height:16px;color:#122e44;display:block}
+.video-toggle .icon-pause{display:none}
+.video-toggle .icon-play{display:block;margin-left:2px}
+.motion-media.is-playing .video-toggle .icon-pause{display:block}
+.motion-media.is-playing .video-toggle .icon-play{display:none}
 
 /* The portrait plates share a fixed composition across desktop and mobile. */
 .people-team .section-header{margin-bottom:26px}
@@ -1076,6 +1068,25 @@ p {
   .life-staff-grid > div { order: 0; }
   .life-staff-grid figure { order: 1; }
   .team-photo-grid figure img { height: 380px; object-position: center 20%; }
+
+  .home-routes .shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: 0 !important;
+  }
+  .home-routes .section-header {
+    padding-inline: 20px !important;
+  }
+  .activity-carousel {
+    grid-auto-columns: 78% !important;
+    gap: 14px !important;
+    padding-inline: calc(11% - 7px) !important;
+    scroll-padding-inline: calc(11% - 7px) !important;
+    padding-bottom: 16px !important;
+  }
+  .activity-slide {
+    scroll-snap-align: center !important;
+  }
 }
 
 /* COMPACT PHONES (max-width: 520px) */
@@ -1136,16 +1147,24 @@ p {
   .home-carousel-head h2 .line-two { display: block; }
   .home-carousel-head h2 .line-two:before { content: none; }
   .home-routes .shell {
-    width: calc(100% - 34px);
+    width: 100% !important;
+    max-width: 100% !important;
     margin-inline: auto;
     padding-inline: 0;
   }
+  .home-routes .section-header {
+    padding-inline: 17px !important;
+  }
   
   .activity-carousel {
-    grid-auto-columns: 100% !important;
-    gap: 16px !important;
-    padding-inline: 0 !important;
-    scroll-padding-inline: 0 !important;
+    grid-auto-columns: 78% !important;
+    gap: 14px !important;
+    padding-inline: calc(11% - 7px) !important;
+    scroll-padding-inline: calc(11% - 7px) !important;
+    padding-bottom: 14px !important;
+  }
+  .activity-slide {
+    scroll-snap-align: center !important;
   }
 
   .home-motion .motion-media,

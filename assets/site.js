@@ -81,6 +81,7 @@
     let resumeTimeout = null;
     let isNormalizing = false;
     let scrollEndTimer = null;
+    let isVisible = true;
 
     const getSetWidth = () => {
       const all = Array.from(rail.querySelectorAll('.activity-slide'));
@@ -88,11 +89,25 @@
       return all[3 * n].offsetLeft - all[2 * n].offsetLeft;
     };
 
-    const initPosition = () => {
+    const getSlideScrollTarget = (index) => {
       const all = Array.from(rail.querySelectorAll('.activity-slide'));
-      if (all[2 * n]) {
-        rail.scrollLeft = all[2 * n].offsetLeft - rail.offsetLeft;
+      const target = all[index];
+      if (!target) return 0;
+      const base = target.offsetLeft - rail.offsetLeft;
+      if (window.innerWidth <= 780) {
+        return Math.round(base - (rail.clientWidth - target.offsetWidth) / 2);
       }
+      return base;
+    };
+
+    const initPosition = () => {
+      rail.style.scrollBehavior = 'auto';
+      rail.style.scrollSnapType = 'none';
+      rail.scrollLeft = getSlideScrollTarget(2 * n);
+      setTimeout(() => {
+        rail.style.scrollBehavior = '';
+        rail.style.scrollSnapType = '';
+      }, 50);
     };
 
     // Teleport position seamlessly ONLY when scrolling has completely stopped
@@ -101,10 +116,8 @@
       const setWidth = getSetWidth();
       if (!setWidth) return;
 
-      const all = Array.from(rail.querySelectorAll('.activity-slide'));
-      if (!all[2 * n] || !all[3 * n]) return;
-      const startOfOriginals = all[2 * n].offsetLeft - rail.offsetLeft;
-      const endOfOriginals = all[3 * n].offsetLeft - rail.offsetLeft;
+      const startOfOriginals = getSlideScrollTarget(2 * n);
+      const endOfOriginals = getSlideScrollTarget(3 * n);
 
       // If user scrolled into the prepended clone buffer (left)
       if (rail.scrollLeft < startOfOriginals - 10) {
@@ -154,14 +167,14 @@
     };
 
     const advance = () => {
-      if (document.hidden || reduced.matches || isInteracting) return;
+      if (document.hidden || reduced.matches || isInteracting || !isVisible) return;
       rail.scrollBy({ left: getStep(), behavior: 'smooth' });
     };
 
     const play = () => {
       stop();
-      if (!reduced.matches && !document.hidden && !isInteracting) {
-        timer = setInterval(advance, 4500);
+      if (!reduced.matches && !document.hidden && !isInteracting && isVisible) {
+        timer = setInterval(advance, 4000);
       }
     };
 
@@ -172,25 +185,39 @@
       resumeTimeout = setTimeout(() => {
         isInteracting = false;
         play();
-      }, 6000);
+      }, 5000);
     };
 
-    // Use native scrollend event where supported, with debounced fallback
+    // Use native scrollend event where supported, with debounced fallback for infinite teleport
     rail.addEventListener('scrollend', checkLoop, { passive: true });
     rail.addEventListener('scroll', () => {
-      pauseInteraction();
       clearTimeout(scrollEndTimer);
-      scrollEndTimer = setTimeout(checkLoop, 120);
+      scrollEndTimer = setTimeout(checkLoop, 150);
     }, { passive: true });
 
     rail.addEventListener('pointerdown', pauseInteraction, { passive: true });
     rail.addEventListener('touchstart', pauseInteraction, { passive: true });
+    rail.addEventListener('wheel', pauseInteraction, { passive: true });
     rail.addEventListener('mouseenter', stop, { passive: true });
     rail.addEventListener('mouseleave', () => {
       if (!isInteracting) play();
     }, { passive: true });
     rail.addEventListener('focusin', stop);
     rail.addEventListener('focusout', play);
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            play();
+          } else {
+            stop();
+          }
+        });
+      }, { threshold: 0.15 });
+      observer.observe(rail);
+    }
     // Desktop navigation arrow buttons
     const section = rail.closest('.home-routes') || rail.parentElement;
     const prevBtn = section ? section.querySelector('.carousel-arrow.prev') : null;
@@ -255,11 +282,12 @@
     window.addEventListener('resize', () => initPosition(), { passive: true });
     window.addEventListener('load', () => initPosition(), { once: true });
 
-    // Initialize position at first original slide
-    requestAnimationFrame(() => {
-      initPosition();
-      play();
-    });
+    // Initialize position and start auto-scroll immediately
+    initPosition();
+    play();
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => initPosition());
+    }
   };
   $$('[data-carousel]').forEach(setupCarousel);
 
@@ -273,10 +301,9 @@
     video.defaultMuted = true;
     video.playsInline = true;
     const setButton = () => {
-      frame.classList.toggle('is-playing', video.readyState >= 2 && !video.paused);
       const running = !video.paused && !video.ended;
+      frame.classList.toggle('is-playing', running);
       toggle.setAttribute('aria-label', running ? 'Pause video' : 'Play video');
-      toggle.querySelector('span').textContent = running ? 'Ⅱ' : '▶';
     };
     toggle.addEventListener('click', async () => {
       if (video.paused) { try { await video.play(); } catch(e) { video.controls = true; } }
