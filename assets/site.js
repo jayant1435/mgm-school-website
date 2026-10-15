@@ -293,6 +293,9 @@
 
   // Silent video: attempt playback when in view; leave the poster visible if
   // the browser blocks autoplay. The on-card button always allows manual play.
+  const PAUSE_ICON_SVG = '<svg class="icon-pause" aria-hidden="true" fill="currentColor" height="15" viewBox="0 0 24 24" width="15" style="display:block;"><rect height="16" rx="1.5" width="4" x="5" y="4"></rect><rect height="16" rx="1.5" width="4" x="15" y="4"></rect></svg>';
+  const PLAY_ICON_SVG = '<svg class="icon-play" aria-hidden="true" fill="currentColor" height="15" viewBox="0 0 24 24" width="15" style="display:block;margin-left:2px;"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5z"></path></svg>';
+
   $$('.motion-media').forEach(frame => {
     const video = $('video', frame);
     const toggle = $('.video-toggle', frame);
@@ -304,6 +307,7 @@
       const running = !video.paused && !video.ended;
       frame.classList.toggle('is-playing', running);
       toggle.setAttribute('aria-label', running ? 'Pause video' : 'Play video');
+      toggle.innerHTML = running ? PAUSE_ICON_SVG : PLAY_ICON_SVG;
     };
     toggle.addEventListener('click', async () => {
       if (video.paused) { try { await video.play(); } catch(e) { video.controls = true; } }
