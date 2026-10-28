@@ -1,0 +1,13 @@
+title = "MGM public repository secret detection"
+
+[extend]
+useDefault = true
+
+# Cloud operator scripts must receive passwords privately, never as literals.
+[[rules]]
+id = "hardcoded-operator-password"
+description = "Hardcoded password in a cloud operator script"
+path = '(?i)(^|/)tool/.*\.(cjs|mjs|js|ts)$'
+regex = '''(?i)(?:password\s*:\s*|signInWithEmailAndPassword\([^;\r\n]{0,200},\s*)['"]([^'"\r\n]{8,})['"]'''
+secretGroup = 1
+keywords = ["password"]
